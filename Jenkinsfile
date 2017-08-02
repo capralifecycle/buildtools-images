@@ -40,7 +40,9 @@ buildConfig([
 
     if (env.BRANCH_NAME == 'master' && !isSameImage) {
       stage('Push Docker image') {
-        img.push('latest')
+        def tagName = 'latest'
+        img.push(tagName)
+        slackNotify message: "New Docker image available: $dockerImageName:$tagName"
       }
     }
   }
