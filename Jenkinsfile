@@ -3,7 +3,7 @@
 // See https://github.com/capralifecycle/jenkins-pipeline-library
 @Library('cals') _
 
-def dockerImageName = '923402097046.dkr.ecr.eu-central-1.amazonaws.com/buildtools/maven-openjdk'
+def dockerImageName = '923402097046.dkr.ecr.eu-central-1.amazonaws.com/buildtools/maven'
 
 buildConfig([
   jobProperties: [
@@ -12,7 +12,7 @@ buildConfig([
       cron('H H(2-6) * * *'),
     ]),
   ],
-  githubUrl: 'https://github.com/capralifecycle/maven-docker-openjdk/',
+  githubUrl: 'https://github.com/capralifecycle/maven-debian-docker/',
   slack: [
     channel: '#cals-dev-info',
     teamDomain: 'cals-capra',
@@ -38,7 +38,7 @@ buildConfig([
 
     if (env.BRANCH_NAME == 'master' && !isSameImage) {
       stage('Push Docker image') {
-        def tagName = '3-alpine'
+        def tagName = '3.5.2-debian'
         img.push(tagName)
         slackNotify message: "New Docker image available: $dockerImageName:$tagName"
       }
