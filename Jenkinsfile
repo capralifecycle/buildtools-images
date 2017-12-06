@@ -38,7 +38,7 @@ buildConfig([
 
     if (env.BRANCH_NAME == 'master' && !isSameImage) {
       stage('Push Docker image') {
-        def tagName = '3.5.2-debian'
+        def tagName = '3.5.2-slim'
         img.push(tagName)
         slackNotify message: "New Docker image available: $dockerImageName:$tagName"
       }
