@@ -12,6 +12,3 @@ RUN apk --no-cache add \
             nodejs \
             nodejs-npm \
     && npm install -g serverless@${SERVERLESS_VERSION}
-
-WORKDIR /usr/src/app
-CMD ["sh"]
