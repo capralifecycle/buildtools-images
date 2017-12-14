@@ -11,4 +11,12 @@ RUN apk --no-cache add \
             openssl \
             nodejs \
             nodejs-npm \
-    && npm install -g serverless@${SERVERLESS_VERSION}
+            py2-pip \
+            python \
+#            groff is dependency for aws cli
+            groff \
+    && npm install -g serverless@${SERVERLESS_VERSION} \
+    && pip install awscli
+
+WORKDIR /usr/src/app
+CMD ["sh"]
