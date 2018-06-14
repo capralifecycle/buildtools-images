@@ -7,4 +7,4 @@ RUN apk -v --no-cache add \
   groff \
   && pip install awscli
 
-CMD ["sh"]
+CMD ["sh"] 
