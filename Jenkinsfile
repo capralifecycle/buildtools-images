@@ -3,7 +3,7 @@
 // See https://github.com/capralifecycle/jenkins-pipeline-library
 @Library('cals') _
 
-def dockerImageName = '923402097046.dkr.ecr.eu-central-1.amazonaws.com/cchange/frontend-builder/'
+def dockerImageName = '923402097046.dkr.ecr.eu-central-1.amazonaws.com/cchange/frontend-builder/cchange-aws-cli'
 
 buildConfig([
   jobProperties: [
