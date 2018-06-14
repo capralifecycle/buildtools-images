@@ -1,2 +1,3 @@
-# cCHANGE docker image
-This repo contains the definition of the cChange frontend image used in our Jenkins pipelines.
+# AWS CLI docker image
+
+This repo contains the definition of the Docker AWS CLI image used in our Jenkins pipelines.

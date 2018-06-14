@@ -3,7 +3,7 @@
 // See https://github.com/capralifecycle/jenkins-pipeline-library
 @Library('cals') _
 
-def dockerImageName = '923402097046.dkr.ecr.eu-central-1.amazonaws.com/cchange/frontend-builder/cchange-aws-cli'
+def dockerImageName = '923402097046.dkr.ecr.eu-central-1.amazonaws.com/buildtools/aws-cli'
 
 buildConfig([
   jobProperties: [
@@ -12,9 +12,9 @@ buildConfig([
       cron('H H(2-6) * * *'),
     ]),
   ],
-  githubUrl: 'https://github.com/capralifecycle/cchange-frontend-build-docker/',
+  githubUrl: 'https://github.com/capralifecycle/buildtools-aws-cli/',
   slack: [
-    channel: '#cchange-dev-info',
+    channel: '#cals-dev-info',
     teamDomain: 'cals-capra',
   ],
 ]) {
@@ -42,7 +42,7 @@ buildConfig([
         img.push(tagName)
         img.push('latest')
 
-        slackNotify message: "New Docker image available: cchange-frontend-builder:$tagName"
+        slackNotify message: "New Docker image available: aws-cli:$tagName"
       }
     }
   }
