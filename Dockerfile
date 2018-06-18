@@ -11,4 +11,4 @@ RUN apk add --no-cache \
     && rm /opt/sonar-scanner.zip \
     && ln -s /opt/sonar-scanner-${SONAR_SCANNER_VERSION}/bin/sonar-scanner /usr/bin/sonar-scanner
 
-ENTRYPOINT ["sonar-scanner"]
+CMD ["sonar-scanner"]
