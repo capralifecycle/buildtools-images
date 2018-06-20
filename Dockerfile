@@ -2,7 +2,7 @@
 FROM alpine:latest
 
 # Deploy script for ECS
-ENV ECS_DEPLOY_VERSION 3.2
+ENV ECS_DEPLOY_VERSION 3.4.0
 RUN apk --no-cache add \
             ca-certificates \
             curl \
