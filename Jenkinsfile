@@ -12,7 +12,6 @@ buildConfig([
       cron('H H(2-6) * * *'),
     ]),
   ],
-  githubUrl: 'https://github.com/capralifecycle/maven-debian-docker/',
   slack: [
     channel: '#cals-dev-info',
     teamDomain: 'cals-capra',
