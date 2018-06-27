@@ -6,7 +6,6 @@
 def dockerImageName = '923402097046.dkr.ecr.eu-central-1.amazonaws.com/buildtools/sonar-scanner'
 
 buildConfig([
-  githubUrl: 'https://github.com/capralifecycle/sonar-scanner-docker/',
   jobProperties: [
     pipelineTriggers([
       // Build a new version every night so we keep up to date with upstream changes
