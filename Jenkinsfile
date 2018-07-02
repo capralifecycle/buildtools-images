@@ -1,46 +1,17 @@
+
 #!/usr/bin/env groovy
 
 // See https://github.com/capralifecycle/jenkins-pipeline-library
 @Library('cals') _
 
-def dockerImageName = '923402097046.dkr.ecr.eu-central-1.amazonaws.com/buildtools/maven-debian'
-
-buildConfig([
-  jobProperties: [
-    pipelineTriggers([
-      // Build a new version every night so we keep up to date with upstream changes
-      cron('H H(2-6) * * *'),
-    ]),
-  ],
-  slack: [
-    channel: '#cals-dev-info',
-    teamDomain: 'cals-capra',
-  ],
-]) {
-  dockerNode {
-    checkout scm
-
-    def img
-    def lastImageId = dockerPullCacheImage(dockerImageName)
-
-    stage('Build Docker image') {
-      img = docker.build(dockerImageName, "--cache-from $lastImageId --pull .")
-    }
-
+buildtoolsBuildSingleDockerImage([
+  dockerImage: '923402097046.dkr.ecr.eu-central-1.amazonaws.com/buildtools/maven-debian',
+  dockerImageTag: '3.5.2-slim',
+  testImageHook: { img ->
     stage('Test Docker image') {
       img.inside {
         sh 'mvn -v'
       }
     }
-
-    def isSameImage = dockerPushCacheImage(img, lastImageId)
-
-    if (env.BRANCH_NAME == 'master' && !isSameImage) {
-      stage('Push Docker image') {
-        def tagName = '3.5.2-slim'
-        img.push(tagName)
-        slackNotify message: "New Docker image available: $dockerImageName:$tagName"
-      }
-    }
-  }
-}
+  },
+])
