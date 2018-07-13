@@ -90,7 +90,11 @@ buildConfig([
 
         def img
         stage('Build Docker image') {
-          img = docker.build(dockerImageName, "--cache-from $lastImageId --pull .")
+          def args = ""
+          if (params.docker_skip_cache) {
+            args = " --no-cache"
+          }
+          img = docker.build(dockerImageName, "--cache-from $lastImageId$args --pull ${tool.name}")
         }
 
         // Hook for running tests
