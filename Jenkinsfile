@@ -5,6 +5,9 @@
 
 def tools = [
   [
+    name: 'aws-cli',
+  ],
+  [
     name: 'ecs-deploy',
   ],
   [
