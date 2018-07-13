@@ -74,7 +74,7 @@ buildConfig([
   def branches = [:]
   tools.each { tool ->
     branches[tool.name] = {
-      def dockerImageName = "923402097046.dkr.ecr.eu-central-1.amazonaws.com/buildtools/tool/${tool.name}",
+      def dockerImageName = "923402097046.dkr.ecr.eu-central-1.amazonaws.com/buildtools/tool/${tool.name}"
       def dockerImageTag = tool.dockerImageTag ?: 'latest'
       def testImageHook = tool.testImageHook
 
