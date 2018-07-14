@@ -105,7 +105,7 @@ buildConfig([
           testImageHook(img)
         }
 
-        def isSameImage = dockerPushCacheImage(img, lastImageId)
+        def isSameImage = dockerPushCacheImage(img, lastImageId, tool.name)
 
         if (env.BRANCH_NAME == 'master' && !isSameImage) {
           stage('Push Docker image') {
