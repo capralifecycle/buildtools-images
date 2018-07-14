@@ -22,7 +22,7 @@ def tools = [
   ],
   [
     name: 'maven',
-    path: 'maven/3-jdk-8-alpine'.
+    path: 'maven/3-jdk-8-alpine',
     dockerImageTag: '3-jdk-8-alpine',
     additionalTags: ['latest'],
     testImageHook: { img ->
@@ -33,7 +33,7 @@ def tools = [
   ],
   [
     name: 'maven',
-    path: 'maven/3-jdk-8-alpine'.
+    path: 'maven/3-jdk-8-alpine',
     dockerImageTag: '3-jdk-8-debian',
     testImageHook: { img ->
       img.inside {
