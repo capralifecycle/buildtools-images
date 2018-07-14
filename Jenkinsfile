@@ -6,9 +6,19 @@
 def tools = [
   [
     name: 'aws-cli',
+    testImageHook: { img ->
+      img.inside {
+        sh 'aws --version'
+      }
+    },
   ],
   [
     name: 'ecs-deploy',
+    testImageHook: { img ->
+      img.inside {
+        sh 'ecs-deploy --version'
+      }
+    },
   ],
   [
     name: 'maven',
@@ -30,6 +40,11 @@ def tools = [
   ],
   [
     name: 'serverless',
+    testImageHook: { img ->
+      img.inside {
+        sh 'serverless --version'
+      }
+    },
   ],
   [
     name: 'sonar-scanner',
