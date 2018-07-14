@@ -1,4 +1,4 @@
-FROM maven:3.5.2-slim
+FROM maven:3-jdk-8-slim
 
 # procps added because of https://issues.jenkins-ci.org/browse/JENKINS-40101
 RUN apt-get update && \

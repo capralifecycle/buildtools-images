@@ -22,7 +22,8 @@ def tools = [
   ],
   [
     name: 'maven',
-    dockerImageTag: '3-alpine',
+    dockerImageTag: '3-jdk-8-alpine',
+    additionalTags: ['latest'],
     testImageHook: { img ->
       img.inside {
         sh 'mvn -v'
@@ -30,8 +31,8 @@ def tools = [
     },
   ],
   [
-    name: 'maven-debian',
-    dockerImageTag: '3.5.2-slim',
+    name: 'maven',
+    dockerImageTag: '3-jdk-8-debian',
     testImageHook: { img ->
       img.inside {
         sh 'mvn -v'
@@ -90,6 +91,7 @@ buildConfig([
   tools.each { tool ->
     def dockerImageRepo = "923402097046.dkr.ecr.eu-central-1.amazonaws.com/buildtools/tool/${tool.name}"
     def dockerImageTag = tool.dockerImageTag ?: 'latest'
+    def additionalTags = tool.additionalTags ?: []
 
     branches["$tool.name-$dockerImageTag"] = {
       def testImageHook = tool.testImageHook
@@ -118,6 +120,9 @@ buildConfig([
         if (env.BRANCH_NAME == 'master' && !isSameImage) {
           echo 'Pushing docker image'
           img.push(dockerImageTag)
+          additionalTags.each {
+            img.push(it)
+          }
           slackNotify message: "New Docker image available: $dockerImageRepo:$dockerImageTag"
         }
       }

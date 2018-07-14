@@ -1,4 +1,4 @@
-FROM maven:3.5.3-alpine
+FROM maven:3-jdk-8-alpine
 
 RUN apk add --no-cache \
         git
