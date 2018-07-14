@@ -14,10 +14,8 @@ def tools = [
     name: 'maven',
     dockerImageTag: '3-alpine',
     testImageHook: { img ->
-      stage('Test Docker image') {
-        img.inside {
-          sh 'mvn -v'
-        }
+      img.inside {
+        sh 'mvn -v'
       }
     },
   ],
@@ -25,10 +23,8 @@ def tools = [
     name: 'maven-debian',
     dockerImageTag: '3.5.2-slim',
     testImageHook: { img ->
-      stage('Test Docker image') {
-        img.inside {
-          sh 'mvn -v'
-        }
+      img.inside {
+        sh 'mvn -v'
       }
     },
   ],
@@ -38,10 +34,8 @@ def tools = [
   [
     name: 'sonar-scanner',
     testImageHook: { img ->
-      stage('Test Docker image') {
-        img.inside {
-          sh 'sonar-scanner -v'
-        }
+      img.inside {
+        sh 'sonar-scanner -v'
       }
     },
   ],
@@ -85,21 +79,16 @@ buildConfig([
       // Run every parallel step in a separate node to restrict resources.
       // (Jenkins will control queuing.)
       dockerNode {
-        stage('Checkout source') {
-          checkout scm
-        }
+        checkout scm
 
         // Separate cache for each tool
         def lastImageId = dockerPullCacheImage(dockerImageRepo, tool.name)
 
-        def img
-        stage('Build Docker image') {
-          def args = ""
-          if (params.docker_skip_cache) {
-            args = " --no-cache"
-          }
-          img = docker.build("$dockerImageRepo:$dockerImageTag", "--cache-from $lastImageId$args --pull ${tool.name}")
+        def args = ""
+        if (params.docker_skip_cache) {
+          args = " --no-cache"
         }
+        def img = docker.build("$dockerImageRepo:$dockerImageTag", "--cache-from $lastImageId$args --pull ${tool.name}")
 
         // Hook for running tests
         if (testImageHook != null) {
@@ -109,10 +98,9 @@ buildConfig([
         def isSameImage = dockerPushCacheImage(img, lastImageId, tool.name)
 
         if (env.BRANCH_NAME == 'master' && !isSameImage) {
-          stage('Push Docker image') {
-            img.push(dockerImageTag)
-            slackNotify message: "New Docker image available: $dockerImageRepo:$dockerImageTag"
-          }
+          echo 'Pushing docker image'
+          img.push(dockerImageTag)
+          slackNotify message: "New Docker image available: $dockerImageRepo:$dockerImageTag"
         }
       }
     }
