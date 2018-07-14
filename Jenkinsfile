@@ -42,7 +42,10 @@ def tools = [
     name: 'serverless',
     testImageHook: { img ->
       img.inside {
-        sh 'serverless --version'
+        sh '''
+          export HOME=/tmp
+          serverless --version
+        '''
       }
     },
   ],
