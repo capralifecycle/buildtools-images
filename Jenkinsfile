@@ -76,9 +76,10 @@ buildConfig([
   // Plan parallel steps
   def branches = [:]
   tools.each { tool ->
-    branches[tool.name] = {
-      def dockerImageName = "923402097046.dkr.ecr.eu-central-1.amazonaws.com/buildtools/tool/${tool.name}"
-      def dockerImageTag = tool.dockerImageTag ?: 'latest'
+    def dockerImageRepo = "923402097046.dkr.ecr.eu-central-1.amazonaws.com/buildtools/tool/${tool.name}"
+    def dockerImageTag = tool.dockerImageTag ?: 'latest'
+
+    branches["$tool.name-$dockerImageTag"] = {
       def testImageHook = tool.testImageHook
 
       // Run every parallel step in a separate node to restrict resources.
@@ -89,7 +90,7 @@ buildConfig([
         }
 
         // Separate cache for each tool
-        def lastImageId = dockerPullCacheImage(dockerImageName, tool.name)
+        def lastImageId = dockerPullCacheImage(dockerImageRepo, tool.name)
 
         def img
         stage('Build Docker image') {
@@ -97,7 +98,7 @@ buildConfig([
           if (params.docker_skip_cache) {
             args = " --no-cache"
           }
-          img = docker.build(dockerImageName, "--cache-from $lastImageId$args --pull ${tool.name}")
+          img = docker.build("$dockerImageRepo:$dockerImageTag", "--cache-from $lastImageId$args --pull ${tool.name}")
         }
 
         // Hook for running tests
@@ -110,7 +111,7 @@ buildConfig([
         if (env.BRANCH_NAME == 'master' && !isSameImage) {
           stage('Push Docker image') {
             img.push(dockerImageTag)
-            slackNotify message: "New Docker image available: $dockerImageName:$dockerImageTag"
+            slackNotify message: "New Docker image available: $dockerImageRepo:$dockerImageTag"
           }
         }
       }
