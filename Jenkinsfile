@@ -60,6 +60,14 @@ def tools = [
       }
     },
   ],
+  [
+    name: 'node',
+    testImageHook: { img ->
+      img.inside {
+        sh 'npm -v'
+      }
+    }
+  ]
 ]
 
 def jobProperties = [
