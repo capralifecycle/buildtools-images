@@ -9,6 +9,7 @@ RUN apk --no-cache add \
     #     # Due to build issues on newer AWS EC2 instances this config has to be set
     #     # to avoid the error: "Error: could not get uid/gid".
     #     # See related info: https://github.com/npm/npm/issues/20861#issuecomment-400786321
+    git \
     && npm config set unsafe-perm true \
     #     && npm install -g serverless@${SERVERLESS_VERSION} \
     && pip install awscli
