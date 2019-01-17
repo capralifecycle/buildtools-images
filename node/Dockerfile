@@ -2,6 +2,7 @@
 FROM node:10-alpine
 
 RUN apk --no-cache add \
+    jq \
     py2-pip \
     python \
     #            groff is dependency for aws cli
