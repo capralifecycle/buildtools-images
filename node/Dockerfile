@@ -2,6 +2,7 @@ FROM node:11-alpine
 
 RUN set -eux; \
     apk --no-cache add \
+      bash \
       git \
       # groff is dependency for aws cli
       groff \
