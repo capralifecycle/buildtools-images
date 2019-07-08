@@ -1,6 +1,6 @@
 FROM openjdk:8-jre-alpine
 
-ENV SONAR_SCANNER_VERSION 3.2.0.1227
+ENV SONAR_SCANNER_VERSION 4.0.0.1744
 
 RUN apk add --no-cache \
         ca-certificates \
