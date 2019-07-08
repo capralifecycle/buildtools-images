@@ -5,6 +5,7 @@ ENV SONAR_SCANNER_VERSION 4.0.0.1744
 RUN apk add --no-cache \
         ca-certificates \
         curl \
+        git \
     && mkdir -p /opt \
     && curl -fSL https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_SCANNER_VERSION}.zip -o /opt/sonar-scanner.zip \
     && unzip /opt/sonar-scanner.zip -d /opt \
