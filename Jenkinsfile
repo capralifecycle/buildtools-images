@@ -42,6 +42,27 @@ def tools = [
     },
   ],
   [
+    name: 'maven',
+    path: 'maven/3-jdk-11-alpine',
+    dockerImageTag: '3-jdk-11-alpine',
+    additionalTags: ['latest'],
+    testImageHook: { img ->
+      img.inside {
+        sh 'mvn -v'
+      }
+    },
+  ],
+  [
+    name: 'maven',
+    path: 'maven/3-jdk-11-debian',
+    dockerImageTag: '3-jdk-11-debian',
+    testImageHook: { img ->
+      img.inside {
+        sh 'mvn -v'
+      }
+    },
+  ],
+  [
     name: 'serverless',
     testImageHook: { img ->
       img.inside {
