@@ -22,7 +22,7 @@ def tools = [
   ],
   [
     name: 'maven',
-    path: 'maven/3-jdk-8-alpine',
+    dockerfile: 'maven/3-jdk-8-alpine.Dockerfile',
     dockerImageTag: '3-jdk-8-alpine',
     additionalTags: ['latest'],
     testImageHook: { img ->
@@ -33,7 +33,7 @@ def tools = [
   ],
   [
     name: 'maven',
-    path: 'maven/3-jdk-8-debian',
+    dockerfile: 'maven/3-jdk-8-debian.Dockerfile',
     dockerImageTag: '3-jdk-8-debian',
     testImageHook: { img ->
       img.inside {
@@ -43,7 +43,7 @@ def tools = [
   ],
   [
     name: 'maven',
-    path: 'maven/3-jdk-11-alpine',
+    dockerfile: 'maven/3-jdk-11-alpine.Dockerfile',
     dockerImageTag: '3-jdk-11-alpine',
     additionalTags: ['latest'],
     testImageHook: { img ->
@@ -54,7 +54,7 @@ def tools = [
   ],
   [
     name: 'maven',
-    path: 'maven/3-jdk-11-debian',
+    dockerfile: 'maven/3-jdk-11-debian.Dockerfile',
     dockerImageTag: '3-jdk-11-debian',
     testImageHook: { img ->
       img.inside {
@@ -124,6 +124,7 @@ buildConfig([
     def dockerImageTag = tool.dockerImageTag ?: 'latest'
     def additionalTags = tool.additionalTags ?: []
     def path = tool.path ?: tool.name
+    def dockerfile = tool.dockerfile ?: "$path/Dockerfile"
 
     branches["$tool.name-$dockerImageTag"] = {
       def testImageHook = tool.testImageHook
@@ -140,7 +141,10 @@ buildConfig([
         if (params.docker_skip_cache) {
           args = " --no-cache"
         }
-        def img = docker.build("$dockerImageRepo:$dockerImageTag", "--cache-from $lastImageId$args --pull $path")
+        def img = docker.build(
+          "$dockerImageRepo:$dockerImageTag",
+          "-f $dockerfile --cache-from $lastImageId$args --pull $path"
+        )
 
         // Hook for running tests
         if (testImageHook != null) {
