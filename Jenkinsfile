@@ -6,18 +6,14 @@
 def tools = [
   [
     name: 'aws-cli',
-    testImageHook: { img ->
-      img.inside {
-        sh 'aws --version'
-      }
+    testImageHook: {
+      sh 'aws --version'
     },
   ],
   [
     name: 'ecs-deploy',
-    testImageHook: { img ->
-      img.inside {
-        sh 'ecs-deploy --version'
-      }
+    testImageHook: {
+      sh 'ecs-deploy --version'
     },
   ],
   [
@@ -25,20 +21,16 @@ def tools = [
     dockerfile: 'maven/3-jdk-8-alpine.Dockerfile',
     dockerImageTag: '3-jdk-8-alpine',
     additionalTags: ['latest'],
-    testImageHook: { img ->
-      img.inside {
-        sh 'mvn -v'
-      }
+    testImageHook: {
+      sh 'mvn -v'
     },
   ],
   [
     name: 'maven',
     dockerfile: 'maven/3-jdk-8-debian.Dockerfile',
     dockerImageTag: '3-jdk-8-debian',
-    testImageHook: { img ->
-      img.inside {
-        sh 'mvn -v'
-      }
+    testImageHook: {
+      sh 'mvn -v'
     },
   ],
   [
@@ -46,47 +38,37 @@ def tools = [
     dockerfile: 'maven/3-jdk-11-alpine.Dockerfile',
     dockerImageTag: '3-jdk-11-alpine',
     additionalTags: ['latest'],
-    testImageHook: { img ->
-      img.inside {
-        sh 'mvn -v'
-      }
+    testImageHook: {
+      sh 'mvn -v'
     },
   ],
   [
     name: 'maven',
     dockerfile: 'maven/3-jdk-11-debian.Dockerfile',
     dockerImageTag: '3-jdk-11-debian',
-    testImageHook: { img ->
-      img.inside {
-        sh 'mvn -v'
-      }
+    testImageHook: {
+      sh 'mvn -v'
     },
   ],
   [
     name: 'serverless',
-    testImageHook: { img ->
-      img.inside {
-        sh '''
-          export HOME=/tmp
-          serverless --version
-        '''
-      }
+    testImageHook: {
+      sh '''
+        export HOME=/tmp
+        serverless --version
+      '''
     },
   ],
   [
     name: 'sonar-scanner',
-    testImageHook: { img ->
-      img.inside {
-        sh 'sonar-scanner -v'
-      }
+    testImageHook: {
+      sh 'sonar-scanner -v'
     },
   ],
   [
     name: 'node',
-    testImageHook: { img ->
-      img.inside {
-        sh 'npm -v'
-      }
+    testImageHook: {
+      sh 'npm -v'
     }
   ]
 ]
@@ -148,7 +130,9 @@ buildConfig([
 
         // Hook for running tests
         if (testImageHook != null) {
-          testImageHook(img)
+          img.inside {
+            testImageHook()
+          }
         }
 
         def isSameImage = dockerPushCacheImage(img, lastImageId, tool.name)
