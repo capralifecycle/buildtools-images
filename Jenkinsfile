@@ -81,6 +81,14 @@ def tools = [
       sh 'npm -v'
     },
   ],
+  [
+    name: 'node',
+    dockerfile: 'node/12-alpine.Dockerfile',
+    dockerImageTag: '12-alpine',
+    testImageHook: {
+      sh 'npm -v'
+    },
+  ],
 ]
 
 def jobProperties = [
