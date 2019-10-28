@@ -68,7 +68,7 @@ def tools = [
   // Deprecated. Use one of the specific versions. Keeping for backward compatibility.
   [
     name: 'node',
-    dockerfile: 'node/11-alpine.Dockerfile',
+    dockerfile: 'node/12-alpine.Dockerfile',
     testImageHook: {
       sh 'npm -v'
     },
