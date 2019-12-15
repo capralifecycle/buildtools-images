@@ -1,0 +1,4 @@
+{
+  "extends": ["github>capraconsulting/renovate-config:default"],
+  "masterIssueApproval": true
+}
