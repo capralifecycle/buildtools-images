@@ -18,10 +18,6 @@ RUN set -eux; \
     # Install sonar-scanner.
     wget https://raw.githubusercontent.com/capralifecycle/buildtools-snippets/master/tools/sonar-scanner/install.sh -O /tmp/sonar-scanner.sh; \
     sh /tmp/sonar-scanner.sh; \
-    rm /tmp/sonar-scanner.sh; \
-    \
-    # Add a user with the UID that Jenkins will use during builds.
-    # This solves issues for some builds that require the user to exist.
-    adduser -D -u 1000 jenkins
+    rm /tmp/sonar-scanner.sh
 
 CMD ["sh"]
