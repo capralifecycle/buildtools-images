@@ -12,10 +12,14 @@ RUN set -ex; \
     ; \
     rm -rf /var/lib/apt/lists/*; \
     \
-    # install Docker client
+    # Install Docker client.
     wget https://raw.githubusercontent.com/capralifecycle/buildtools-snippets/master/tools/docker/install-alpine.sh -O- | sh; \
     docker --version; \
     \
-    # install Maven
+    # Install Maven.
     wget https://raw.githubusercontent.com/capralifecycle/buildtools-snippets/master/tools/maven-3/install.sh -O- | sh; \
-    mvn -version
+    mvn -version; \
+    \
+    # Add a user with the UID that Jenkins will use during builds.
+    # This solves issues for some builds that require the user to exist.
+    useradd -u 1000 jenkins
