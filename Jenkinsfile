@@ -132,36 +132,46 @@ buildConfig([
       // Run every parallel step in a separate node to restrict resources.
       // (Jenkins will control queuing.)
       dockerNode {
-        checkout scm
+        stage("Checkout source") {
+          checkout scm
+        }
 
         // Separate cache for each tool
         def lastImageId = dockerPullCacheImage(dockerImageRepo, tool.name)
 
-        def args = ""
-        if (params.docker_skip_cache) {
-          args = " --no-cache"
+        def img
+        stage("Build image") {
+          def args = ""
+          if (params.docker_skip_cache) {
+            args = " --no-cache"
+          }
+
+          img = docker.build(
+            "$dockerImageRepo:$dockerImageTag",
+            "-f $dockerfile --cache-from $lastImageId$args --pull $path"
+          )
         }
-        def img = docker.build(
-          "$dockerImageRepo:$dockerImageTag",
-          "-f $dockerfile --cache-from $lastImageId$args --pull $path"
-        )
 
         // Hook for running tests
         if (testImageHook != null) {
-          img.inside {
-            testImageHook()
+          stage("Test image") {
+            img.inside {
+              testImageHook()
+            }
           }
         }
 
         def isSameImage = dockerPushCacheImage(img, lastImageId, tool.name)
 
         if (env.BRANCH_NAME == 'master' && !isSameImage) {
-          echo 'Pushing docker image'
-          img.push(dockerImageTag)
-          additionalTags.each {
-            img.push(it)
+          stage("Push image") {
+            echo 'Pushing docker image'
+            img.push(dockerImageTag)
+            additionalTags.each {
+              img.push(it)
+            }
+            slackNotify message: "New Docker image available: $dockerImageRepo:$dockerImageTag"
           }
-          slackNotify message: "New Docker image available: $dockerImageRepo:$dockerImageTag"
         }
       }
     }
