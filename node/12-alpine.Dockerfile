@@ -7,6 +7,7 @@ RUN set -eux; \
       # groff is dependency for aws cli
       groff \
       jq \
+      make \
       py3-pip \
     ; \
     # Due to build issues on newer AWS EC2 instances this config has to be set
