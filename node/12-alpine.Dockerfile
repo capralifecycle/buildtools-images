@@ -9,6 +9,7 @@ RUN set -eux; \
       jq \
       make \
       py3-pip \
+      zip \
     ; \
     # Due to build issues on newer AWS EC2 instances this config has to be set
     # to avoid the error: "Error: could not get uid/gid".
