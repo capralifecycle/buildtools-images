@@ -194,7 +194,8 @@ buildConfig([
             additionalTags.each {
               img.push(it)
             }
-            slackNotify message: "New Docker image available: $dockerImageRepo:$dockerImageTag"
+            def age = getAgeFirstLayer(img)
+            slackNotify message: "New Docker image available: $dockerImageRepo:$dockerImageTag (age first layer: $age)"
           }
         }
       }
@@ -202,4 +203,11 @@ buildConfig([
   }
 
   parallel branches
+}
+
+def getAgeFirstLayer(image) {
+  return sh([
+    returnStdout: true,
+    script: "docker history '${image.id}' --format '{{.CreatedSince}}' | tail -1"
+  ]).trim()
 }
