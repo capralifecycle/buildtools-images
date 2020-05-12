@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:latest@sha256:39eda93d15866957feaee28f8fc5adb545276a64147445c64992ef69804dbf01
 
 ENV ECS_DEPLOY_VERSION 3.4.0
 
