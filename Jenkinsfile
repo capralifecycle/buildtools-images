@@ -22,7 +22,14 @@ def tools = [
     dockerImageTag: '3-jdk-8-alpine',
     additionalTags: ['latest'],
     testImageHook: {
-      sh 'mvn -v'
+      sh '''
+        mvn -v
+        cat /etc/alpine-release
+        # We explicitly approve updates of Alpine to know what is going on.
+        grep "^3\\.11\\." /etc/alpine-release
+        test -e "$JAVA_HOME/bin/javac"
+        java -version 2>&1 | grep "openjdk version \\"1\\.8\\."
+      '''
     },
   ],
   [
@@ -30,7 +37,14 @@ def tools = [
     dockerfile: 'maven/3-jdk-8-debian.Dockerfile',
     dockerImageTag: '3-jdk-8-debian',
     testImageHook: {
-      sh 'mvn -v'
+      sh '''
+        mvn -v
+        cat /etc/debian_version
+        # We explicitly approve updates of Debian to know what is going on.
+        grep "^10\\.3\\$" /etc/debian_version
+        test -e "$JAVA_HOME/bin/javac"
+        java -version 2>&1 | grep "openjdk version \\"1\\.8\\."
+      '''
     },
   ],
   [
@@ -39,7 +53,14 @@ def tools = [
     dockerImageTag: '3-jdk-11-alpine',
     additionalTags: ['latest'],
     testImageHook: {
-      sh 'mvn -v'
+      sh '''
+        mvn -v
+        cat /etc/alpine-release
+        # We explicitly approve updates of Alpine to know what is going on.
+        grep "^3\\.11\\." /etc/alpine-release
+        test -e "$JAVA_HOME/bin/javac"
+        java -version 2>&1 | grep "openjdk version \\"11\\.0\\."
+      '''
     },
   ],
   [
@@ -47,7 +68,14 @@ def tools = [
     dockerfile: 'maven/3-jdk-11-debian.Dockerfile',
     dockerImageTag: '3-jdk-11-debian',
     testImageHook: {
-      sh 'mvn -v'
+      sh '''
+        mvn -v
+        cat /etc/debian_version
+        # We explicitly approve updates of Debian to know what is going on.
+        grep "^10\\.3\\$" /etc/debian_version
+        test -e "$JAVA_HOME/bin/javac"
+        java -version 2>&1 | grep "openjdk version \\"11\\.0\\."
+      '''
     },
   ],
   [
