@@ -8,6 +8,7 @@ RUN set -ex; \
       git \
       procps \
       wget \
+      zip \
     ; \
     rm -rf /var/lib/apt/lists/*; \
     \

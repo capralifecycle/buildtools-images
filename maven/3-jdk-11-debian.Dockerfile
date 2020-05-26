@@ -9,6 +9,7 @@ RUN set -ex; \
       openssh-client \
       procps \
       wget \
+      zip \
     ; \
     rm -rf /var/lib/apt/lists/*; \
     \

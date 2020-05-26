@@ -7,6 +7,7 @@ RUN set -ex; \
       git \
       procps \
       wget \
+      zip \
     ; \
     \
     # Install Maven.
