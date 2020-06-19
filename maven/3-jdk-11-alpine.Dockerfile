@@ -13,7 +13,7 @@ RUN set -ex; \
     ; \
     \
     # Install Docker client.
-    wget https://raw.githubusercontent.com/capralifecycle/buildtools-snippets/master/tools/docker/install-alpine.sh -O- | sh; \
+    wget https://raw.githubusercontent.com/capralifecycle/buildtools-snippets/master/tools/docker/install.sh -O- | sh; \
     docker --version; \
     \
     # Install Maven.
