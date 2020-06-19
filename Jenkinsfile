@@ -106,10 +106,6 @@ def tools = [
     name: 'node',
     dockerfile: 'node/11-alpine.Dockerfile',
     dockerImageTag: '11-alpine',
-    testImageHook: {
-      sh 'node -v'
-      sh 'npm -v'
-    },
   ],
   [
     name: 'node',
