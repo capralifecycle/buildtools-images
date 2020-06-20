@@ -5,8 +5,7 @@ RUN set -eux; \
       bash \
       git \
       jq \
-      py2-pip \
-      python \
+      py-pip \
       groff \
     ; \
     pip install awscli; \

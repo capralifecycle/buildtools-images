@@ -11,8 +11,7 @@ RUN apk --no-cache add \
             openssl \
             nodejs \
             nodejs-npm \
-            py2-pip \
-            python \
+            py-pip \
 #            groff is dependency for aws cli
             groff \
     # Due to build issues on newer AWS EC2 instances this config has to be set

@@ -9,7 +9,7 @@ RUN set -eux; \
         bash \
         jq \
         openssl \
-        py2-pip \
+        py-pip \
     ; \
     pip install awscli; \
     wget -O /usr/bin/ecs-deploy https://raw.githubusercontent.com/silinternational/ecs-deploy/$ECS_DEPLOY_VERSION/ecs-deploy; \
