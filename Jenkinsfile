@@ -72,7 +72,7 @@ def tools = [
         mvn -v
         cat /etc/debian_version
         # We explicitly approve updates of Debian to know what is going on.
-        grep "^10\\.4\\$" /etc/debian_version
+        grep "^10\\.5\\$" /etc/debian_version
         test -e "$JAVA_HOME/bin/javac"
         java -version 2>&1 | grep "openjdk version \\"11\\.0\\."
       '''
