@@ -125,6 +125,15 @@ def tools = [
       sh 'npm -v'
     },
   ],
+  [
+    name: 'node',
+    dockerfile: 'node/14-browsers.Dockerfile',
+    dockerImageTag: '14-browsers',
+    testImageHook: {
+      sh 'node -v'
+      sh 'npm -v'
+    },
+  ],
 ]
 
 def jobProperties = [
