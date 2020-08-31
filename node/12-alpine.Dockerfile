@@ -3,10 +3,14 @@ FROM node:12-alpine@sha256:0b5c7eb38785da1ad4c105930faca0bc546dfcceb0464724456e2
 RUN set -eux; \
     apk --no-cache add \
       bash \
+      # Needed for `npm install keytar` for cals-cli.
+      g++ \
       git \
       # groff is dependency for aws cli
       groff \
       jq \
+      # Needed for `npm install keytar` for cals-cli.
+      libsecret-dev \
       make \
       py3-pip \
       zip \
