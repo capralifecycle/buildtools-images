@@ -134,6 +134,15 @@ def tools = [
       sh 'npm -v'
     },
   ],
+  [
+    name: 'python',
+    dockerfile: 'python/3.Dockerfile',
+    dockerImageTag: '3',
+    testImageHook: {
+      sh 'python -V'
+      sh 'pip -V'
+    },
+  ],
 ]
 
 def jobProperties = [
