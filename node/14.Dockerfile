@@ -12,6 +12,8 @@ RUN set -eux; \
       python3-setuptools \
       python3-wheel \
       zip \
+      # Other utils
+      diffutils \
     ; \
     rm -rf /var/lib/apt/lists/*; \
     # Due to build issues on newer AWS EC2 instances this config has to be set
