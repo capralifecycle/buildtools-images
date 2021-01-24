@@ -10,6 +10,11 @@ RUN set -ex; \
       procps \
       wget \
       zip \
+      # Needed for `npm install keytar` for cals-cli.
+      libsecret-1-dev \
+      python3-pip \
+      python3-setuptools \
+      python3-wheel \
     ; \
     rm -rf /var/lib/apt/lists/*; \
     \
