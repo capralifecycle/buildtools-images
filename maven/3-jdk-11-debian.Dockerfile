@@ -13,6 +13,13 @@ RUN set -ex; \
     ; \
     rm -rf /var/lib/apt/lists/*; \
     \
+    # Install Node.
+    wget https://raw.githubusercontent.com/capralifecycle/buildtools-snippets/master/tools/node/install.sh -O /tmp/script.sh; \
+    sh /tmp/script.sh; \
+    rm /tmp/script.sh; \
+    node --version; \
+    npm --version; \
+    \
     # Install Docker client.
     wget https://raw.githubusercontent.com/capralifecycle/buildtools-snippets/master/tools/docker/install.sh -O- | sh; \
     docker --version; \
