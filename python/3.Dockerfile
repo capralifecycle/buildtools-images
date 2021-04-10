@@ -1,4 +1,4 @@
-FROM python:3-slim@sha256:2ef3cf170fcf496e28a3bf7902be2f793d8520b74caa2f45f4a5df10e68821fd
+FROM python:3-slim@sha256:d392dc22fd04662597e6c8fe00744e8a285c47255360f3b12ec410238d31e74a
 
 RUN set -eux; \
     apt-get update; \
