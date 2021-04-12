@@ -195,7 +195,7 @@ buildConfig([
 
           img = docker.build(
             "$dockerImageRepo:$dockerImageTag",
-            "-f $dockerfile --cache-from $lastImageId$args --pull $path"
+            "-f $dockerfile --cache-from $lastImageId$args $path"
           )
         }
 
