@@ -7,12 +7,9 @@
   },
   "packageRules": [
     {
-      "groupName": "azul/zulu-openjdk-debian",
-      "packagePatterns": ["^azul/zulu-openjdk-debian:"]
-    },
-    {
-      "groupName": "azul/zulu-openjdk-alpine",
-      "packagePatterns": ["^azul/zulu-openjdk-alpine:"]
+      "groupName": "azul-openjdk-images",
+      "matchDatasources": ["docker"],
+      "packagePatterns": ["^azul/zulu-openjdk"]
     }
   ]
 }
