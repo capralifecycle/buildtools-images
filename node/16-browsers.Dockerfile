@@ -5,11 +5,13 @@ RUN set -eux; \
     apt-get install -y --no-install-recommends \
       # groff is dependency for aws cli
       groff \
+      jq \
       # Needed for `npm install keytar` for cals-cli.
       libsecret-1-dev \
       python3-pip \
       python3-setuptools \
       python3-wheel \
+      zip \
       # For browsers.
       xvfb \
     ; \
