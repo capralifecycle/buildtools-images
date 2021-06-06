@@ -5,12 +5,6 @@
 
 def tools = [
   [
-    name: 'ecs-deploy',
-    testImageHook: {
-      sh 'ecs-deploy --version'
-    },
-  ],
-  [
     name: 'maven',
     dockerfile: 'maven/3-jdk-8-alpine.Dockerfile',
     dockerImageTag: '3-jdk-8-alpine',
