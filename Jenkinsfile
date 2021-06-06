@@ -5,12 +5,6 @@
 
 def tools = [
   [
-    name: 'aws-cli',
-    testImageHook: {
-      sh 'aws --version'
-    },
-  ],
-  [
     name: 'ecs-deploy',
     testImageHook: {
       sh 'ecs-deploy --version'
