@@ -26,7 +26,12 @@ RUN set -eux; \
     # Install sonar-scanner.
     wget https://raw.githubusercontent.com/capralifecycle/buildtools-snippets/master/tools/sonar-scanner/install.sh -O /tmp/sonar-scanner.sh; \
     sh /tmp/sonar-scanner.sh; \
-    rm /tmp/sonar-scanner.sh
+    rm /tmp/sonar-scanner.sh; \
+    \
+    # Add directory we use a cypress cache in our builds.
+    # See test-cypress-docker.sh in webapp-baseline for details.
+    mkdir /cypress-cache; \
+    chmod 777 /cypress-cache
 
 # Install Google Chrome.
 
