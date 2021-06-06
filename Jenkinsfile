@@ -8,7 +8,6 @@ def tools = [
     name: 'maven',
     dockerfile: 'maven/3-jdk-8-alpine.Dockerfile',
     dockerImageTag: '3-jdk-8-alpine',
-    additionalTags: ['latest'],
     testImageHook: {
       sh '''
         mvn -v
@@ -39,7 +38,6 @@ def tools = [
     name: 'maven',
     dockerfile: 'maven/3-jdk-11-alpine.Dockerfile',
     dockerImageTag: '3-jdk-11-alpine',
-    additionalTags: ['latest'],
     testImageHook: {
       sh '''
         mvn -v
