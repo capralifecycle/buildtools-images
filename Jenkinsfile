@@ -81,20 +81,6 @@ def tools = [
       sh 'sonar-scanner -v'
     },
   ],
-  // Deprecated. Use one of the specific versions. Keeping for backward compatibility.
-  [
-    name: 'node',
-    dockerfile: 'node/12-alpine.Dockerfile',
-    testImageHook: {
-      sh 'node -v'
-      sh 'npm -v'
-    },
-  ],
-  [
-    name: 'node',
-    dockerfile: 'node/11-alpine.Dockerfile',
-    dockerImageTag: '11-alpine',
-  ],
   [
     name: 'node',
     dockerfile: 'node/12-alpine.Dockerfile',
