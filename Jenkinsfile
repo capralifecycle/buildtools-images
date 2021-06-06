@@ -7,7 +7,7 @@ def tools = [
   [
     name: 'maven',
     dockerfile: 'maven/3-jdk-8-alpine.Dockerfile',
-    dockerImageTag: '3-jdk-8-alpine',
+    imageTag: '3-jdk-8-alpine',
     testImageHook: {
       sh '''
         mvn -v
@@ -22,7 +22,7 @@ def tools = [
   [
     name: 'maven',
     dockerfile: 'maven/3-jdk-8-debian.Dockerfile',
-    dockerImageTag: '3-jdk-8-debian',
+    imageTag: '3-jdk-8-debian',
     testImageHook: {
       sh '''
         mvn -v
@@ -37,7 +37,7 @@ def tools = [
   [
     name: 'maven',
     dockerfile: 'maven/3-jdk-11-alpine.Dockerfile',
-    dockerImageTag: '3-jdk-11-alpine',
+    imageTag: '3-jdk-11-alpine',
     testImageHook: {
       sh '''
         mvn -v
@@ -52,7 +52,7 @@ def tools = [
   [
     name: 'maven',
     dockerfile: 'maven/3-jdk-11-debian.Dockerfile',
-    dockerImageTag: '3-jdk-11-debian',
+    imageTag: '3-jdk-11-debian',
     testImageHook: {
       sh '''
         mvn -v
@@ -82,7 +82,7 @@ def tools = [
   [
     name: 'node',
     dockerfile: 'node/12-alpine.Dockerfile',
-    dockerImageTag: '12-alpine',
+    imageTag: '12-alpine',
     testImageHook: {
       sh 'node -v'
       sh 'npm -v'
@@ -91,7 +91,7 @@ def tools = [
   [
     name: 'node',
     dockerfile: 'node/14.Dockerfile',
-    dockerImageTag: '14',
+    imageTag: '14',
     testImageHook: {
       sh 'node -v'
       sh 'npm -v'
@@ -100,7 +100,7 @@ def tools = [
   [
     name: 'node',
     dockerfile: 'node/14-browsers.Dockerfile',
-    dockerImageTag: '14-browsers',
+    imageTag: '14-browsers',
     testImageHook: {
       sh 'node -v'
       sh 'npm -v'
@@ -109,7 +109,7 @@ def tools = [
   [
     name: 'node',
     dockerfile: 'node/16.Dockerfile',
-    dockerImageTag: '16',
+    imageTag: '16',
     testImageHook: {
       sh 'node -v'
       sh 'npm -v'
@@ -118,7 +118,7 @@ def tools = [
   [
     name: 'node',
     dockerfile: 'node/16-browsers.Dockerfile',
-    dockerImageTag: '16-browsers',
+    imageTag: '16-browsers',
     testImageHook: {
       sh 'node -v'
       sh 'npm -v'
@@ -127,7 +127,7 @@ def tools = [
   [
     name: 'python',
     dockerfile: 'python/3.Dockerfile',
-    dockerImageTag: '3',
+    imageTag: '3',
     testImageHook: {
       sh 'python -V'
       sh 'pip -V'
@@ -157,13 +157,15 @@ buildConfig([
   // Plan parallel steps
   def branches = [:]
   tools.each { tool ->
-    def dockerImageRepo = "923402097046.dkr.ecr.eu-central-1.amazonaws.com/buildtools/tool/${tool.name}"
-    def dockerImageTag = tool.dockerImageTag ?: 'latest'
-    def additionalTags = tool.additionalTags ?: []
+    def oldImageRepo = "923402097046.dkr.ecr.eu-central-1.amazonaws.com/buildtools/tool/${tool.name}"
+    def publicImageRepo = "public.ecr.aws/z8l5l4v4/buildtools/tool/${tool.name}"
+
+    def imageTag = tool.imageTag ?: 'latest'
+    def additionalImageTags = tool.additionalImageTags ?: []
     def path = tool.path ?: tool.name
     def dockerfile = tool.dockerfile ?: "$path/Dockerfile"
 
-    branches["$tool.name-$dockerImageTag"] = {
+    branches["$tool.name-$imageTag"] = {
       def testImageHook = tool.testImageHook
 
       // Run every parallel step in a separate node to restrict resources.
@@ -174,41 +176,52 @@ buildConfig([
         }
 
         // Separate cache for each tool
-        def lastImageId = dockerPullCacheImage(dockerImageRepo, tool.name)
+        def lastImageId = dockerPullCacheImage(oldImageRepo, tool.name)
 
-        def img
+        def builtImage = "buildtools/${tool.name}/${imageTag}"
         stage("Build image") {
           def args = ""
           if (params.docker_skip_cache) {
             args = " --no-cache"
           }
 
-          img = docker.build(
-            "$dockerImageRepo:$dockerImageTag",
-            "-f $dockerfile --cache-from $lastImageId$args $path"
-          )
+          sh "docker build -t $builtImage -f $dockerfile --cache-from $lastImageId$args $path"
         }
 
         // Hook for running tests
         if (testImageHook != null) {
           stage("Test image") {
-            img.inside {
+            docker.image(builtImage).inside {
               testImageHook()
             }
           }
         }
 
-        def isSameImage = dockerPushCacheImage(img, lastImageId, tool.name)
+        sh "docker tag $builtImage $oldImageRepo"
+        def cacheImg = docker.image(oldImageRepo)
+        def isSameImage = dockerPushCacheImage(cacheImg, lastImageId, tool.name)
 
         if (env.BRANCH_NAME == 'master' && !isSameImage) {
-          stage("Push image") {
-            echo 'Pushing docker image'
-            img.push(dockerImageTag)
-            additionalTags.each {
-              img.push(it)
+          stage("Push image to old repo") {
+            push(builtImage, "$oldImageRepo:$imageTag")
+            additionalImageTags.each {
+              push(builtImage, "$oldImageRepo:$it")
             }
-            def age = getAgeFirstLayer(img)
-            slackNotify message: "New Docker image available: $dockerImageRepo:$dockerImageTag (age first layer: $age)"
+            def age = getAgeFirstLayer(builtImage)
+            slackNotify message: "New container image available: $oldImageRepo:$imageTag (age first layer: $age)"
+          }
+
+          stage("Push image to public ECR") {
+            // Login to public ECR. This must be done against us-east-1.
+            // Implicitly uses role provided to slave container.
+            sh '(set +x; aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/z8l5l4v4)'
+
+            push(builtImage, "$publicImageRepo:$imageTag")
+            additionalImageTags.each {
+              push(builtImage, "$publicImageRepo:$it")
+            }
+            def age = getAgeFirstLayer(builtImage)
+            slackNotify message: "New container image available: $publicImageRepo:$imageTag (age first layer: $age)"
           }
         }
       }
@@ -218,9 +231,14 @@ buildConfig([
   parallel branches
 }
 
-def getAgeFirstLayer(image) {
+def getAgeFirstLayer(imageName) {
   return sh([
     returnStdout: true,
-    script: "docker history '${image.id}' --format '{{.CreatedSince}}' | tail -1"
+    script: "docker history '${imageName}' --format '{{.CreatedSince}}' | tail -1"
   ]).trim()
+}
+
+def push(sourceName, targetName) {
+  sh "docker tag $sourceName $targetName"
+  sh "docker push $targetName"
 }
