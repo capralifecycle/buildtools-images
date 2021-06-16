@@ -1,5 +1,5 @@
 # This Dockerfile is used by Jenkins to build the application
-FROM alpine:latest@sha256:69e70a79f2d41ab5d637de98c1e0b055206ba40a8145e7bddb55ccc04e13cf8f
+FROM alpine:3.13@sha256:69e70a79f2d41ab5d637de98c1e0b055206ba40a8145e7bddb55ccc04e13cf8f
 
 # Serverless framework
 ENV SERVERLESS_VERSION 1.37.1
