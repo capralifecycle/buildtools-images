@@ -164,6 +164,7 @@ buildConfig([
     def additionalImageTags = tool.additionalImageTags ?: []
     def path = tool.path ?: tool.name
     def dockerfile = tool.dockerfile ?: "$path/Dockerfile"
+    def cacheId = "${tool.name}-${imageTag}"
 
     branches["$tool.name-$imageTag"] = {
       def testImageHook = tool.testImageHook
@@ -176,7 +177,7 @@ buildConfig([
         }
 
         // Separate cache for each tool
-        def lastImageId = dockerPullCacheImage(oldImageRepo, tool.name)
+        def lastImageId = dockerPullCacheImage(oldImageRepo, cacheId)
 
         def builtImage = "buildtools/${tool.name}/${imageTag}"
         stage("Build image") {
@@ -199,7 +200,7 @@ buildConfig([
 
         sh "docker tag $builtImage $oldImageRepo"
         def cacheImg = docker.image(oldImageRepo)
-        def isSameImage = dockerPushCacheImage(cacheImg, lastImageId, tool.name)
+        def isSameImage = dockerPushCacheImage(cacheImg, lastImageId, cacheId)
 
         if (env.BRANCH_NAME == 'master' && !isSameImage) {
           stage("Push image to old repo") {
