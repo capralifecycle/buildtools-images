@@ -1,4 +1,4 @@
-FROM circleci/node:14-browsers@sha256:1ee3d86d555ec671d2fa10e9e63b266019cf9a26c789ed34f49bafa029e0cc0b
+FROM circleci/node:14-browsers@sha256:54a2e58e9acae89335ca46e25338529e1bbbaaab5cbe59cf713260ebd0eb4a0e
 
 USER root
 
