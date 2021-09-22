@@ -157,7 +157,10 @@ buildConfig([
   // Plan parallel steps
   def branches = [:]
   tools.each { tool ->
-    def oldImageRepo = "923402097046.dkr.ecr.eu-central-1.amazonaws.com/buildtools/tool/${tool.name}"
+    // This is the old repo we previously used. Now we only use it to keep
+    // an image cache, to avoid mixing the cache with the actual images in the
+    // public repo.
+    def cacheImageRepo = "923402097046.dkr.ecr.eu-central-1.amazonaws.com/buildtools/tool/${tool.name}"
     def publicImageRepo = "public.ecr.aws/z8l5l4v4/buildtools/tool/${tool.name}"
 
     def imageTag = tool.imageTag ?: 'latest'
@@ -177,7 +180,7 @@ buildConfig([
         }
 
         // Separate cache for each tool
-        def lastImageId = dockerPullCacheImage(oldImageRepo, cacheId)
+        def lastImageId = dockerPullCacheImage(cacheImageRepo, cacheId)
 
         def builtImage = "buildtools/${tool.name}/${imageTag}"
         stage("Build image") {
@@ -198,20 +201,11 @@ buildConfig([
           }
         }
 
-        sh "docker tag $builtImage $oldImageRepo"
-        def cacheImg = docker.image(oldImageRepo)
+        sh "docker tag $builtImage $cacheImageRepo"
+        def cacheImg = docker.image(cacheImageRepo)
         def isSameImage = dockerPushCacheImage(cacheImg, lastImageId, cacheId)
 
         if (env.BRANCH_NAME == 'master' && !isSameImage) {
-          stage("Push image to old repo") {
-            push(builtImage, "$oldImageRepo:$imageTag")
-            additionalImageTags.each {
-              push(builtImage, "$oldImageRepo:$it")
-            }
-            def age = getAgeFirstLayer(builtImage)
-            slackNotify message: "New container image available: $oldImageRepo:$imageTag (age first layer: $age)"
-          }
-
           stage("Push image to public ECR") {
             // Login to public ECR. This must be done against us-east-1.
             // Implicitly uses role provided to slave container.
