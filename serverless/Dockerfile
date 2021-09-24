@@ -10,7 +10,7 @@ RUN apk --no-cache add \
             jq \
             openssl \
             nodejs \
-            nodejs-npm \
+            npm \
             py-pip \
 #            groff is dependency for aws cli
             groff \
