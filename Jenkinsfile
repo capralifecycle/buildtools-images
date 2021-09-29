@@ -65,6 +65,21 @@ def tools = [
     },
   ],
   [
+    name: 'maven',
+    dockerfile: 'maven/3-jdk-17-debian.Dockerfile',
+    imageTag: '3-jdk-17-debian',
+    testImageHook: {
+      sh '''
+        mvn -v
+        cat /etc/debian_version
+        # We explicitly approve updates of Debian to know what is going on.
+        grep "^11\\.0\\$" /etc/debian_version
+        test -e "$JAVA_HOME/bin/javac"
+        java -version 2>&1 | grep "openjdk version \\"17"
+      '''
+    },
+  ],
+  [
     name: 'serverless',
     testImageHook: {
       sh '''
