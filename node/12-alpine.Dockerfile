@@ -1,4 +1,4 @@
-FROM node:12-alpine@sha256:545a8fcce3893a9ef2ea7407eb70e62bc3322538e6dd7424a77f94826385f245
+FROM node:12-alpine@sha256:f5ae5a3fd6773bf15ce0ac8990bb2a1b5e64df6b3acd40d1737de2a0c3ad5631
 
 RUN set -eux; \
     apk --no-cache add \
