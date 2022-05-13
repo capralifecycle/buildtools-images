@@ -1,4 +1,4 @@
-FROM azul/zulu-openjdk-alpine:11@sha256:d9dd6a66363b248f0e7e070ebbe7fb455fcecc449960016c84340d7d12cea04d
+FROM azul/zulu-openjdk-alpine:18@sha256:7838231f7546be18fd7ec0d0fa3efe41b69305c0d21ad320be9a945e7d5bd3ec
 
 RUN set -ex; \
     apk add --no-cache \
