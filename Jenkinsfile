@@ -140,6 +140,24 @@ def tools = [
     },
   ],
   [
+    name: 'node',
+    dockerfile: 'node/18.Dockerfile',
+    imageTag: '18',
+    testImageHook: {
+      sh 'node -v'
+      sh 'npm -v'
+    },
+  ],
+  [
+    name: 'node',
+    dockerfile: 'node/18-browsers.Dockerfile',
+    imageTag: '18-browsers',
+    testImageHook: {
+      sh 'node -v'
+      sh 'npm -v'
+    },
+  ],
+  [
     name: 'python',
     dockerfile: 'python/3.Dockerfile',
     imageTag: '3',
