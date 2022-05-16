@@ -13,7 +13,7 @@ def tools = [
         mvn -v
         cat /etc/alpine-release
         # We explicitly approve updates of Alpine to know what is going on.
-        grep "^3\\.14\\." /etc/alpine-release
+        grep "^3\\.15\\." /etc/alpine-release
         test -e "$JAVA_HOME/bin/javac"
         java -version 2>&1 | grep "openjdk version \\"1\\.8\\."
       '''
@@ -43,7 +43,7 @@ def tools = [
         mvn -v
         cat /etc/alpine-release
         # We explicitly approve updates of Alpine to know what is going on.
-        grep "^3\\.14\\." /etc/alpine-release
+        grep "^3\\.15\\." /etc/alpine-release
         test -e "$JAVA_HOME/bin/javac"
         java -version 2>&1 | grep "openjdk version \\"11\\.0\\."
       '''
