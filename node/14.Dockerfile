@@ -1,4 +1,4 @@
-FROM node:14@sha256:4cdb1236a1fc9875fb589104704b52c2664522e9bdb03dcc93c5690f59bae1ce
+FROM node:14@sha256:500c729bf9b75de8aee647d70b68dc16eb14991d74bbf033c5ffdb667bbef704
 
 RUN set -eux; \
     apt-get update; \
