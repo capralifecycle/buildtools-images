@@ -3,6 +3,7 @@ FROM node:16@sha256:0c672d547405fe64808ea28b49c5772b1026f81b3b716ff44c10c96abf17
 RUN set -eux; \
     apt-get update; \
     apt-get install -y --no-install-recommends \
+      docker \
       # groff is dependency for aws cli
       groff \
       jq \
