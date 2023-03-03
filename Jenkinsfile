@@ -177,6 +177,11 @@ def jobProperties = [
       description: 'Force build without Docker cache',
       name: 'docker_skip_cache'
     ),
+    booleanParam(
+      defaultValue: false,
+      description: 'Publish images to ECR Public with a custom tag for testing purposes (e.g., from non-master branch)',
+      name: 'dev_publish'
+    ),
   ]),
 ]
 
@@ -250,6 +255,14 @@ buildConfig([
             }
             def age = getAgeFirstLayer(builtImage)
             slackNotify message: "New container image available: $publicImageRepo:$imageTag (age first layer: $age)"
+          }
+        } else if (params.dev_publish) {
+          stage("Push development image to public ECR") {
+            // Login to public ECR. This must be done against us-east-1.
+            // Implicitly uses role provided to slave container.
+            sh '(set +x; aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/z8l5l4v4)'
+
+            push(builtImage, "$publicImageRepo:ci-dev-$imageTag")
           }
         }
       }
