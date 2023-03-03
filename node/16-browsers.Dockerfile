@@ -23,6 +23,10 @@ RUN set -eux; \
     npm config set unsafe-perm true; \
     pip3 install awscli; \
     \
+    # Install Docker client.
+    wget https://raw.githubusercontent.com/capralifecycle/buildtools-snippets/master/tools/docker/install.sh -O- | sh; \
+    docker --version; \
+    \
     # Install sonar-scanner.
     wget https://raw.githubusercontent.com/capralifecycle/buildtools-snippets/master/tools/sonar-scanner/install.sh -O /tmp/sonar-scanner.sh; \
     sh /tmp/sonar-scanner.sh; \
