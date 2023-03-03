@@ -3,7 +3,6 @@ FROM cimg/node:16.19.1-browsers
 RUN set -eux; \
     apt-get update; \
     apt-get install -y --no-install-recommends \
-      docker \
       # groff is dependency for aws cli
       groff \
       jq \
