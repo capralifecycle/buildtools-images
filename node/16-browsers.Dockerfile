@@ -1,6 +1,7 @@
 FROM cimg/node:16.19.1-browsers
 
 RUN set -eux; \
+    rm -rf /var/lib/apt/lists/*; \
     apt-get update; \
     apt-get install -y --no-install-recommends \
       # groff is dependency for aws cli
@@ -15,7 +16,6 @@ RUN set -eux; \
       # For browsers.
       xvfb \
     ; \
-    rm -rf /var/lib/apt/lists/*; \
     npm cache clean --force; \
     # Due to build issues on newer AWS EC2 instances this config has to be set
     # to avoid the error: "Error: could not get uid/gid".
