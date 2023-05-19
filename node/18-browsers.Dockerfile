@@ -17,10 +17,6 @@ RUN set -eux; \
     ; \
     rm -rf /var/lib/apt/lists/*; \
     npm cache clean --force; \
-    # Due to build issues on newer AWS EC2 instances this config has to be set
-    # to avoid the error: "Error: could not get uid/gid".
-    # See related info: https://github.com/npm/npm/issues/20861#issuecomment-400786321
-    npm config set unsafe-perm true; \
     pip3 install awscli; \
     \
     # Install sonar-scanner.
