@@ -80,15 +80,6 @@ def tools = [
     },
   ],
   [
-    name: 'serverless',
-    testImageHook: {
-      sh '''
-        export HOME=/tmp
-        serverless --version
-      '''
-    },
-  ],
-  [
     name: 'sonar-scanner',
     testImageHook: {
       sh 'sonar-scanner -v'
