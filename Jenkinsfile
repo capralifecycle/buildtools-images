@@ -314,7 +314,7 @@ def uploadDependencyGraphSnapshot(snapshot) {
         --header "X-GitHub-Api-Version: 2022-11-28" \
         --header "Authorization: Bearer \$GITHUB_TOKEN" \
         --silent \
-        --fail \
+        --fail \
         --data "@$tmpFile" \
         "$endpoint"
     """
