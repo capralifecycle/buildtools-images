@@ -8,6 +8,7 @@ def tools = [
     name: 'maven',
     dockerfile: 'maven/3-jdk-8-alpine.Dockerfile',
     imageTag: '3-jdk-8-alpine',
+    dependencySnapshotting: true,
     testImageHook: {
       sh '''
         mvn -v
@@ -38,6 +39,7 @@ def tools = [
     name: 'maven',
     dockerfile: 'maven/3-jdk-11-alpine.Dockerfile',
     imageTag: '3-jdk-11-alpine',
+    dependencySnapshotting: true,
     testImageHook: {
       sh '''
         mvn -v
@@ -53,6 +55,7 @@ def tools = [
     name: 'maven',
     dockerfile: 'maven/3-jdk-11-debian.Dockerfile',
     imageTag: '3-jdk-11-debian',
+    dependencySnapshotting: true,
     testImageHook: {
       sh '''
         mvn -v
@@ -68,6 +71,7 @@ def tools = [
     name: 'maven',
     dockerfile: 'maven/3-jdk-17-debian.Dockerfile',
     imageTag: '3-jdk-17-debian',
+    dependencySnapshotting: true,
     testImageHook: {
       sh '''
         mvn -v
@@ -89,6 +93,7 @@ def tools = [
     name: 'node',
     dockerfile: 'node/16.Dockerfile',
     imageTag: '16',
+    dependencySnapshotting: true,
     testImageHook: {
       sh 'node -v'
       sh 'npm -v'
@@ -98,6 +103,7 @@ def tools = [
     name: 'node',
     dockerfile: 'node/16-browsers.Dockerfile',
     imageTag: '16-browsers',
+    dependencySnapshotting: true,
     testImageHook: {
       sh 'node -v'
       sh 'npm -v'
