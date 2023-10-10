@@ -143,6 +143,7 @@ def tools = [
     name: 'node',
     dockerfile: 'node/18.Dockerfile',
     imageTag: '18',
+    dependencySnapshotting: true,
     testImageHook: {
       sh 'node -v'
       sh 'npm -v'
@@ -152,6 +153,7 @@ def tools = [
     name: 'node',
     dockerfile: 'node/18-browsers.Dockerfile',
     imageTag: '18-browsers',
+    dependencySnapshotting: true,
     testImageHook: {
       sh 'node -v'
       sh 'npm -v'
