@@ -80,45 +80,9 @@ def tools = [
     },
   ],
   [
-    name: 'serverless',
-    testImageHook: {
-      sh '''
-        export HOME=/tmp
-        serverless --version
-      '''
-    },
-  ],
-  [
     name: 'sonar-scanner',
     testImageHook: {
       sh 'sonar-scanner -v'
-    },
-  ],
-  [
-    name: 'node',
-    dockerfile: 'node/12-alpine.Dockerfile',
-    imageTag: '12-alpine',
-    testImageHook: {
-      sh 'node -v'
-      sh 'npm -v'
-    },
-  ],
-  [
-    name: 'node',
-    dockerfile: 'node/14.Dockerfile',
-    imageTag: '14',
-    testImageHook: {
-      sh 'node -v'
-      sh 'npm -v'
-    },
-  ],
-  [
-    name: 'node',
-    dockerfile: 'node/14-browsers.Dockerfile',
-    imageTag: '14-browsers',
-    testImageHook: {
-      sh 'node -v'
-      sh 'npm -v'
     },
   ],
   [
