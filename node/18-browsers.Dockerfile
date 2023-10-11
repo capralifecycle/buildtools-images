@@ -11,13 +11,15 @@ RUN set -eux; \
       python3-pip \
       python3-setuptools \
       python3-wheel \
+      pipx \
       zip \
       # For browsers.
       xvfb \
     ; \
     rm -rf /var/lib/apt/lists/*; \
     npm cache clean --force; \
-    pip3 install awscli; \
+    PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install awscli; \
+    aws --version; \
     \
     # Install sonar-scanner.
     wget https://raw.githubusercontent.com/capralifecycle/buildtools-snippets/master/tools/sonar-scanner/install.sh -O /tmp/sonar-scanner.sh; \

@@ -11,12 +11,14 @@ RUN set -eux; \
       python3-pip \
       python3-setuptools \
       python3-wheel \
+      pipx \
       zip \
       # Other utils
       diffutils \
     ; \
     rm -rf /var/lib/apt/lists/*; \
-    pip3 install awscli; \
+    PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install awscli; \
+    aws --version; \
     \
     # Install Docker client.
     wget https://raw.githubusercontent.com/capralifecycle/buildtools-snippets/master/tools/docker/install.sh -O- | sh; \
