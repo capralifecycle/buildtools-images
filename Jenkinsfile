@@ -91,26 +91,6 @@ def tools = [
   ],
   [
     name: 'node',
-    dockerfile: 'node/16.Dockerfile',
-    imageTag: '16',
-    dependencySnapshotting: true,
-    testImageHook: {
-      sh 'node -v'
-      sh 'npm -v'
-    },
-  ],
-  [
-    name: 'node',
-    dockerfile: 'node/16-browsers.Dockerfile',
-    imageTag: '16-browsers',
-    dependencySnapshotting: true,
-    testImageHook: {
-      sh 'node -v'
-      sh 'npm -v'
-    },
-  ],
-  [
-    name: 'node',
     dockerfile: 'node/18.Dockerfile',
     imageTag: '18',
     dependencySnapshotting: true,
@@ -127,15 +107,6 @@ def tools = [
     testImageHook: {
       sh 'node -v'
       sh 'npm -v'
-    },
-  ],
-  [
-    name: 'python',
-    dockerfile: 'python/3.Dockerfile',
-    imageTag: '3',
-    testImageHook: {
-      sh 'python -V'
-      sh 'pip -V'
     },
   ],
 ]
