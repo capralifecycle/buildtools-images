@@ -24,6 +24,7 @@ def tools = [
     name: 'maven',
     dockerfile: 'maven/3-jdk-8-debian.Dockerfile',
     imageTag: '3-jdk-8-debian',
+    dependencySnapshotting: true,
     testImageHook: {
       sh '''
         mvn -v
@@ -85,6 +86,7 @@ def tools = [
   ],
   [
     name: 'sonar-scanner',
+    dependencySnapshotting: true,
     testImageHook: {
       sh 'sonar-scanner -v'
     },
