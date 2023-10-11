@@ -26,11 +26,11 @@ RUN set -ex; \
     npm --version; \
     \
     # Install Docker client.
-    wget https://raw.githubusercontent.com/capralifecycle/buildtools-snippets/master/tools/docker/install.sh -O- | sh; \
+    wget https://raw.githubusercontent.com/capralifecycle/buildtools-snippets/update-maven/tools/docker/install.sh -O- | sh; \
     docker --version; \
     \
     # Install Maven.
-    wget https://raw.githubusercontent.com/capralifecycle/buildtools-snippets/master/tools/maven-3/install.sh -O- | sh; \
+    wget https://raw.githubusercontent.com/capralifecycle/buildtools-snippets/update-maven/tools/maven-3/install.sh -O- | sh; \
     mvn -version; \
     \
     # Add a user with the UID that Jenkins will use during builds.

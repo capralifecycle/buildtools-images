@@ -56,6 +56,7 @@ def tools = [
     name: 'maven',
     dockerfile: 'maven/3-jdk-11-debian.Dockerfile',
     imageTag: '3-jdk-11-debian',
+    devPublish: true,
     dependencySnapshotting: true,
     testImageHook: {
       sh '''
@@ -72,6 +73,7 @@ def tools = [
     name: 'maven',
     dockerfile: 'maven/3-jdk-17-debian.Dockerfile',
     imageTag: '3-jdk-17-debian',
+    devPublish: true,
     dependencySnapshotting: true,
     testImageHook: {
       sh '''
@@ -149,6 +151,7 @@ buildConfig([
     def imageTag = tool.imageTag ?: 'latest'
     def additionalImageTags = tool.additionalImageTags ?: []
     def path = tool.path ?: tool.name
+    def devPublish = params.dev_publish ?: tool.devPublish
     def dockerfile = tool.dockerfile ?: "$path/Dockerfile"
     def cacheId = "${tool.name}-${imageTag}"
     def dependencySnapshotting = tool.dependencySnapshotting ?: false
@@ -206,7 +209,7 @@ buildConfig([
             def age = getAgeFirstLayer(builtImage)
             slackNotify message: "New container image available: $publicImageRepo:$imageTag (age first layer: $age)"
           }
-        } else if (params.dev_publish) {
+        } else if (devPublish) {
           stage("Push development image to public ECR") {
             // Login to public ECR. This must be done against us-east-1.
             // Implicitly uses role provided to slave container.
