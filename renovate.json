@@ -11,5 +11,12 @@
       "matchDatasources": ["docker"],
       "packagePatterns": ["^azul/zulu-openjdk"]
     }
-  ]
+  ],
+  "ignorePaths": [
+    "**/node/12-*.Dockerfile",
+    "**/node/14-*.Dockerfile",
+    "**/node/16-*.Dockerfile",
+    "**/python/3.Dockerfile",
+    "**/serverless/Dockerfile",
+  ],
 }
