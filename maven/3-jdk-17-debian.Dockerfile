@@ -1,4 +1,4 @@
-FROM azul/zulu-openjdk-debian:17@sha256:ef10729ae74f6ebdd45b837865ffbcac52d3fdbb7e150e840de65e4dbf2ffb42
+FROM azul/zulu-openjdk-debian:20@sha256:b6ee045812d2f3f90244cb29e345f823fa2af1c4754f3fabad091726721b4799
 
 RUN set -ex; \
     apt-get update; \
