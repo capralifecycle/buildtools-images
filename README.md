@@ -10,6 +10,7 @@ used in build pipelines.
 - [maven3-jdk-11-alpine](maven/)
 - [maven3-jdk-11-debian](maven/)
 - [maven3-jdk-17-debian](maven/)
+- [maven3-jdk-21-debian](maven/)
 - ~~[node12-alpine](node/)~~ (deprecated)
 - ~~[node14](node/)~~ (deprecated)
 - ~~[node14-browsers](node/)~~ (deprecated)

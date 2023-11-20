@@ -85,6 +85,22 @@ def tools = [
     },
   ],
   [
+    name: 'maven',
+    dockerfile: 'maven/3-jdk-21-debian.Dockerfile',
+    imageTag: '3-jdk-21-debian',
+    dependencySnapshotting: true,
+    testImageHook: {
+      sh '''
+        mvn -v
+        cat /etc/debian_version
+        # We explicitly approve updates of Debian to know what is going on.
+        grep "^11\\.8\\$" /etc/debian_version
+        test -e "$JAVA_HOME/bin/javac"
+        java -version 2>&1 | grep "openjdk version \\"21"
+      '''
+    },
+  ],
+  [
     name: 'sonar-scanner',
     dependencySnapshotting: true,
     testImageHook: {
