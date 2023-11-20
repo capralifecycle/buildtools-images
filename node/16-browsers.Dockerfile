@@ -2,6 +2,7 @@ FROM node:16@sha256:f77a1aef2da8d83e45ec990f45df50f1a286c5fe8bbfb8c6e4246c638970
 
 RUN set -eux; \
     apt-get update; \
+    apt-get satisfy "python3-setuptools (>= 65.5.1)"; \
     apt-get install -y --no-install-recommends \
       # groff is dependency for aws cli
       groff \
@@ -9,7 +10,6 @@ RUN set -eux; \
       # Needed for `npm install keytar` for cals-cli.
       libsecret-1-dev \
       python3-pip \
-      python3-setuptools \
       python3-wheel \
       zip \
       # For browsers.
