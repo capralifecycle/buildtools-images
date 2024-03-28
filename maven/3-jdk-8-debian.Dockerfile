@@ -1,4 +1,4 @@
-FROM azul/zulu-openjdk-debian:8@sha256:0760c346ecb65799f3d734829bd8163ddf0ed22755f266956d63dc799432e4e8
+FROM azul/zulu-openjdk-debian:8@sha256:cba39ef148df0b1c9d618cd0079e2d77d20230bae255beb48aeb9d770f141036
 
 # procps added because of https://issues.jenkins-ci.org/browse/JENKINS-40101
 RUN set -ex; \
